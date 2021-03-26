@@ -1,22 +1,14 @@
-#include <iostream>
-#include <opencv2/core/core.hpp>
-#include <opencv2/highgui/highgui.hpp>
-
+#include "include.h"
 #include "misc.h"
-
-using namespace std;
-using namespace cv;
+#include "init.h"
 
 int main()
 {
-    Mat image = imread("resources\\test.jpg", IMREAD_COLOR);
-    Mat another_one = imread("resources\\pic_1.jpg", IMREAD_GRAYSCALE);
-    if (image.empty())
-    {
-        cout << "nuj ba de ce nu merge";
+    Mat image;
+    Mat another_one;
 
-        return 1;
-    }
+    readColoredImage(image, "test.jpg");
+    readColoredImage(another_one, "pic_1.jpg");
 
     imshow("boomer", image);
     imshow("alb negru", another_one);
