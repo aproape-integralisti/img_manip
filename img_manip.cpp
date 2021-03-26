@@ -14,5 +14,6 @@ int main()
     imshow("alb negru", another_one);
     waitKey(0);
 
+
     return 0;
 }
