@@ -2,6 +2,8 @@
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
 
+#include "misc.h"
+
 using namespace std;
 using namespace cv;
 
