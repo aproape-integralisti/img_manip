@@ -10,7 +10,7 @@ void _ImageTransform(Mat const &cv_img, vector<vector<Pixel>> &img)
 	{
 		for (int col = 0; col < cv_img.cols; col++)
 		{
-			img[row][col]= cv_img.at<Vec3b>(row, col);
+			img[row][col] = cv_img.at<Vec3b>(row, col);
 		}
 	}
 }

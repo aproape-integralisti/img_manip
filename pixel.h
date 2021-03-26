@@ -8,7 +8,8 @@ struct Pixel
 	uint16_t g;
 	uint16_t b;
 
-	Pixel& operator= (Vec3b const&);
+	Vec3b toVec3b();
 
+	Pixel& operator= (Vec3b const&);
 	friend ostream& operator<< (ostream&, Pixel const &);
 };
