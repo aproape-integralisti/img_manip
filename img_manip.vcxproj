@@ -142,11 +142,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="image.cpp" />
     <ClCompile Include="img_manip.cpp" />
+    <ClCompile Include="pixel.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="image.h" />
     <ClInclude Include="include.h" />
-    <ClInclude Include="init.h" />
+    <ClInclude Include="misc.h" />
+    <ClInclude Include="pixel.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\pic_1.jpg" />
+    <Image Include="resources\pic_2.png" />
+    <Image Include="resources\pic_3.png" />
+    <Image Include="resources\pic_4.png" />
+    <Image Include="resources\pic_5.png" />
+    <Image Include="resources\pic_6.jpg" />
+    <Image Include="resources\pic_7.png" />
+    <Image Include="resources\test.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

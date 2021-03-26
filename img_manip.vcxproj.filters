@@ -18,13 +18,51 @@
     <ClCompile Include="img_manip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pixel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="image.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="init.h">
-      <Filter>Resource Files</Filter>
+    <ClInclude Include="misc.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="pixel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\pic_1.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\test.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pic_2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pic_3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pic_4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pic_5.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pic_6.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pic_7.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

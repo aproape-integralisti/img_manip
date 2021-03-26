@@ -1,19 +1,11 @@
 #include "include.h"
-#include "misc.h"
-#include "init.h"
+#include "image.h"
 
 int main()
 {
-    Mat image;
-    Mat another_one;
+    Image img_1("pic_8.png");
 
-    readColoredImage(image, "test.jpg");
-    readColoredImage(another_one, "pic_1.jpg");
-
-    imshow("boomer", image);
-    imshow("alb negru", another_one);
-    waitKey(0);
-
+    cout << img_1;
 
     return 0;
 }
