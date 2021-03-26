@@ -10,7 +10,7 @@ using namespace cv;
 int main()
 {
     Mat image = imread("resources\\test.jpg", IMREAD_COLOR);
-
+    Mat another_one = imread("resources\\pic_1.jpg", IMREAD_GRAYSCALE);
     if (image.empty())
     {
         cout << "nuj ba de ce nu merge";
@@ -19,6 +19,7 @@ int main()
     }
 
     imshow("boomer", image);
+    imshow("alb negru", another_one);
     waitKey(0);
 
     return 0;
