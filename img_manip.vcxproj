@@ -160,6 +160,7 @@
     <Image Include="resources\pic_5.png" />
     <Image Include="resources\pic_6.jpg" />
     <Image Include="resources\pic_7.png" />
+    <Image Include="resources\pic_9.png" />
     <Image Include="resources\test.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -2,9 +2,9 @@
 #include "include.h"
 #include "pixel.h"
 
-void _ImageTransform(Mat cv_img, vector<vector<Pixel>> &img)
+void _ImageTransform(Mat const &cv_img, vector<vector<Pixel>> &img)
 {
-	img.resize(cv_img.cols, vector<Pixel>(cv_img.rows));
+	img.resize(cv_img.rows, vector<Pixel>(cv_img.cols));
 
 	for (int row = 0; row < cv_img.rows; row++)
 	{
@@ -15,9 +15,9 @@ void _ImageTransform(Mat cv_img, vector<vector<Pixel>> &img)
 	}
 }
 
-bool _ImageEmpty(Mat image)
+bool _ImageEmpty(Mat const &cv_img)
 {
-	if (image.empty()) 
+	if (cv_img.empty()) 
 	{
 		return true;
 	}

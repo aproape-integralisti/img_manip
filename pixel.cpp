@@ -1,6 +1,6 @@
 #include "pixel.h"
 
-Pixel& Pixel::operator=(Vec3b intensity)
+Pixel& Pixel::operator=(Vec3b const &intensity)
 {
 	r = intensity.val[2];
 	g = intensity.val[1];

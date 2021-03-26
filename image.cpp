@@ -13,7 +13,7 @@ Image::Image(string const &address)
 
 ostream& operator<<(ostream& os, Image const &image)
 {
-	for(int i = 0; i < image.img.size(); i++)
+	/*for(int i = 0; i < image.img.size(); i++)
 	{
 		for(int j = 0; j < image.img[0].size(); j++)
 		{
@@ -21,7 +21,9 @@ ostream& operator<<(ostream& os, Image const &image)
 		}
 		
 		os << "\n";
-	}
+	}*/
+
+	os << "S-a reusit";
 	
 	return os;
 }
