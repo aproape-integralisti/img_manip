@@ -6,7 +6,7 @@ Image::Image(string const &address)
 {
 	string call = "resources\\" + address;
 
-	if (_ImageRead(img, call))
+	if (_ImageRead(pixels, call))
 	{
 		cout << "IMAGE FAILED TO LOAD" << '\n';
 	}
@@ -16,36 +16,38 @@ Image::Image(string const &address)
 	}
 }
 
-void Image::kmeans() {
-	kMeansClustering(img, 2, 3);
+void Image::imageCompress(int const &clusters) {
+	kMeansClustering(pixels, 2, clusters);
 }
 
-void Image::imageReconstruct(Mat &image)
+bool Image::imageReconstruct(Mat &cv_img)
 {
 	Vec3b intensity;
 
-	for (int row = 0; row < img.size(); row++)
+	for (int row = 0; row < pixels.size(); row++)
 	{
-		for (int col = 0; col < img[0].size(); col++)
+		for (int col = 0; col < pixels[0].size(); col++)
 		{
-			image.at<Vec3b>(row, col) = img[row][col].toVec3b();
+			cv_img.at<Vec3b>(row, col) = pixels[row][col].toVec3b();
 		}
 	}
 
-	if (image.empty())
+	if (_ImageEmpty(cv_img))
 	{
 		cout << "RECONSTRUCTION FAILED FOR: " << name << '\n';
 		
-		return;
+		return false;
 	}
 
 	cout << "RECONSTRUCTION SUCCESSFULL FOR: " << name << '\n';
+
+	return true;
 }
 
 
 void Image::printImage()
 {
-	Mat image(img.size(), img[0].size(), CV_8UC3);
+	Mat image(pixels.size(), pixels[0].size(), CV_8UC3);
 
 	if (name == "")
 	{
@@ -56,19 +58,19 @@ void Image::printImage()
 
 	name += " reconstructed";
 
-	imageReconstruct(image);
-
-	imshow(name, image);
-	waitKey(0);
+	if (imageReconstruct(image)) {
+		imshow(name, image);
+		waitKey(0);
+	}
 }
 
 ostream& operator<<(ostream& os, Image const &image)
 {
-	/*for(int i = 0; i < image.img.size(); i++)
+	/*for(int i = 0; i < image.pixels.size(); i++)
 	{
-		for(int j = 0; j < image.img[0].size(); j++)
+		for(int j = 0; j < image.pixels[0].size(); j++)
 		{
-			os << image.img[i][j] << " ";
+			os << image.pixels[i][j] << " ";
 		}
 		
 		os << '\n';

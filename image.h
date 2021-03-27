@@ -8,16 +8,16 @@ class Image
 private:
 
 	string name;
-	vector<vector<Pixel>> img;
+	vector<vector<Pixel>> pixels;
 	
 public:
 
 	Image() = default;
 	Image(string const&);
 
-	void imageReconstruct(Mat &);
+	bool imageReconstruct(Mat &);
 	void printImage();
-	void kmeans();
+	void imageCompress(int const &);
 
 	friend ostream& operator<< (ostream&, Image const&);
 };

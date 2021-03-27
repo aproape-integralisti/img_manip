@@ -2,15 +2,15 @@
 #include "include.h"
 #include "pixel.h"
 
-void _ImageTransform(Mat const &cv_img, vector<vector<Pixel>> &img)
+void _ImageTransform(Mat const &cv_img, vector<vector<Pixel>> &pixels)
 {
-	img.resize(cv_img.rows, vector<Pixel>(cv_img.cols));
+	pixels.resize(cv_img.rows, vector<Pixel>(cv_img.cols));
 
 	for (int row = 0; row < cv_img.rows; row++)
 	{
 		for (int col = 0; col < cv_img.cols; col++)
 		{
-			img[row][col] = cv_img.at<Vec3b>(row, col);
+			pixels[row][col] = cv_img.at<Vec3b>(row, col);
 		}
 	}
 }
@@ -24,7 +24,7 @@ bool _ImageEmpty(Mat const &cv_img)
 	return false;
 }
 
-int _ImageRead(vector<vector<Pixel>> &img, string const& call)
+int _ImageRead(vector<vector<Pixel>> &pixels, string const& call)
 {
 	Mat cv_img;
 
@@ -37,7 +37,7 @@ int _ImageRead(vector<vector<Pixel>> &img, string const& call)
 		return -1;
 	}
 
-	_ImageTransform(cv_img, img);
+	_ImageTransform(cv_img, pixels);
 
 	return 0;
 }

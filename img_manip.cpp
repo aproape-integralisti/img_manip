@@ -3,11 +3,11 @@
 
 int main()
 {
-    Image img_1("pic_5.png");
+    Image img_1("pic_1.jpg");
   
     cout << img_1;
 
-    img_1.kmeans();
+    img_1.imageCompress(3);
 
     img_1.printImage();
 
