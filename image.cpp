@@ -1,5 +1,6 @@
 #include "image.h"
 #include "misc.h"
+#include "kmeans.h"
 
 Image::Image(string const &address)
 {
@@ -13,6 +14,10 @@ Image::Image(string const &address)
 	{
 		name = address;
 	}
+}
+
+void Image::kmeans() {
+	kMeansClustering(img, 2, 3);
 }
 
 void Image::imageReconstruct(Mat &image)
@@ -29,12 +34,12 @@ void Image::imageReconstruct(Mat &image)
 
 	if (image.empty())
 	{
-		cout << "RECONSTRUCTION HAS FAILED FOR: " << name << '\n';
+		cout << "RECONSTRUCTION FAILED FOR: " << name << '\n';
 		
 		return;
 	}
 
-	cout << "RECONSTRUCTION SUCCESSFULLY FOR: " << name << '\n';
+	cout << "RECONSTRUCTION SUCCESSFULL FOR: " << name << '\n';
 }
 
 

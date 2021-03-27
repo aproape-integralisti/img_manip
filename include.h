@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <cmath>
 #include <string>
 #include <vector>
 #include <opencv2/core/core.hpp>

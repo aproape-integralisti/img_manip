@@ -7,6 +7,8 @@ int main()
   
     cout << img_1;
 
+    img_1.kmeans();
+
     img_1.printImage();
 
     return 0;

@@ -1,5 +1,9 @@
 #include "pixel.h"
 
+Pixel::Pixel() : r(0), g(0), b(0), cluster(-1), minDist(DBL_MAX) {}
+
+Pixel::Pixel(uint16_t r, uint16_t g, uint16_t b) : r(r), g(g), b(b), cluster(-1), minDist(DBL_MAX) {}
+
 Vec3b Pixel::toVec3b()
 {
 	Vec3b intensity;
@@ -9,6 +13,10 @@ Vec3b Pixel::toVec3b()
 	intensity.val[0] = (uchar)b;
 
 	return intensity;
+}
+
+double Pixel::distance(Pixel const &px) {
+	return (pow(px.r - r, 2) + pow(px.g - g, 2) + pow(px.b - b, 2));
 }
 
 Pixel& Pixel::operator=(Vec3b const &intensity)

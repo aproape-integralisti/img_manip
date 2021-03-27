@@ -17,6 +17,7 @@ public:
 
 	void imageReconstruct(Mat &);
 	void printImage();
+	void kmeans();
 
 	friend ostream& operator<< (ostream&, Image const&);
 };
