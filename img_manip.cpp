@@ -3,7 +3,7 @@
 
 int main()
 {
-    Image img_1("pic_1.jpg");
+    Image img_1("pic_5.png");
   
     cout << img_1;
 
