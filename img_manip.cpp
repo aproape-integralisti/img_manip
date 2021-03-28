@@ -3,11 +3,11 @@
 
 int main()
 {
-    Image img_1("pic_11.jpg");
+    Image img_1("pic_14.jpg");
   
     cout << img_1;
 
-    img_1.imageCompress(10);
+    img_1.imageCompress(16);
 
     img_1.printImage();
 

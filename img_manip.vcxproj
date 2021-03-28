@@ -156,6 +156,10 @@
   <ItemGroup>
     <Image Include="resources\pic_1.jpg" />
     <Image Include="resources\pic_10.png" />
+    <Image Include="resources\pic_11.jpg" />
+    <Image Include="resources\pic_12.jpg" />
+    <Image Include="resources\pic_13.jpg" />
+    <Image Include="resources\pic_14.jpg" />
     <Image Include="resources\pic_2.png" />
     <Image Include="resources\pic_3.png" />
     <Image Include="resources\pic_4.png" />

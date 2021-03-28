@@ -12,9 +12,12 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int clusters) {
 
 	// Pick random centroids
 	for (int i = 0; i < clusters; i++) {
-		centroids.push_back(pixels[rand() & 5][rand() % 3]);
+		//TO DO: add a better mod here
+		centroids.push_back(pixels[rand() & 113][rand() % 117]);
 	}
 
+
+	//TO DO: implement a smarter condition while(true) & if() return
 	while (a < 20) {
 		c_changed = true;
 		a++;

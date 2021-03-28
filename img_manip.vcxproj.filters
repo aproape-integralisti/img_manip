@@ -73,5 +73,17 @@
     <Image Include="resources\pic_10.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\pic_11.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pic_12.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pic_13.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pic_14.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
