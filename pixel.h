@@ -4,12 +4,12 @@
 
 struct Pixel
 {
-	uint16_t r, g, b;
+	uchar r, g, b;
 	int cluster;
 	double minDist;
 
 	Pixel();
-	Pixel(uint16_t, uint16_t, uint16_t);
+	///Pixel(uint16_t, uint16_t, uint16_t);
 
 	Vec3b toVec3b();
 	double distance(Pixel const&);

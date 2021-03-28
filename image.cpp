@@ -17,7 +17,7 @@ Image::Image(string const &address)
 }
 
 void Image::imageCompress(int const &clusters) {
-	kMeansClustering(pixels, 2, clusters);
+	kMeansClustering(pixels, clusters);
 }
 
 bool Image::imageReconstruct(Mat &cv_img)
