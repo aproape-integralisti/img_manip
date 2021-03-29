@@ -75,8 +75,10 @@ ostream& operator<<(ostream& os, Image const &image)
 		
 		os << '\n';
 	}*/
-
-	os << "SUCCESSFULLY MANAGED TO READ IMAGE AT: " << image.name << '\n';
+	if (!image.pixels.empty())
+	{
+		os << "SUCCESSFULLY MANAGED TO READ IMAGE AT: " << image.name << '\n';
+	}
 	
 	return os;
 }

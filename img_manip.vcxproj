@@ -160,6 +160,8 @@
     <Image Include="resources\pic_12.jpg" />
     <Image Include="resources\pic_13.jpg" />
     <Image Include="resources\pic_14.jpg" />
+    <Image Include="resources\pic_15.png" />
+    <Image Include="resources\pic_16.jpg" />
     <Image Include="resources\pic_2.png" />
     <Image Include="resources\pic_3.png" />
     <Image Include="resources\pic_4.png" />
