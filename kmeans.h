@@ -21,57 +21,57 @@ void debugshow2(vector<int>const& sume)
 	cout << endl;
 }
 
-
-
 void kMeansClustering(vector<vector<Pixel>>& pixels, int clusters) {
 	vector<Pixel> centroids;
+	Pixel* px;
+	
+	auto dimRow = pixels.size();
+	auto dimCol = pixels[0].size();
+	
 	int a = 0;
+
 	// Set the random speed
 	srand(time(0));
-
-	auto dim_row = pixels.size();
-	auto dim_col = pixels[0].size();
-	
 
 	// Pick random centroids
 	for (int i = 0; i < clusters; i++) 
 	{
-		centroids.push_back(pixels[rand() % (dim_row)][rand() % (dim_col)]);
+		centroids.push_back(pixels[rand() % (dimRow)][rand() % (dimCol)]);
 	}
 
-	auto dim_centroids = centroids.size();
+	auto dimCentroids = centroids.size();
 
 	// Counting number of centroids to check if we must stop
-	int crt_centroids = 0;
+	bool centroidChanged = false;
 
 	cout << "STARTING THE K-MEANS PROCESSING..." << '\n';
 
 	while (true) 
 	{
-		crt_centroids = 0;
+		centroidChanged = false;
 		// cout << "CENTROIDS MODIFIED ONCE" << '\n';
 		double dist, minDist;
-		Pixel* px;
+		
 
 		// Initialise with zeroes
 		vector<int> nPixels(clusters, 0);
 		vector<double> sumR(clusters, 0.0), sumG(clusters, 0.0), sumB(clusters, 0.0);
 
-		for (int row = 0; row < dim_row; row++)
+		for (int row = 0; row < dimRow; row++)
 		{
-			for (int col = 0; col < dim_col; col++)
+			for (int col = 0; col < dimCol; col++)
 			{
 				minDist = DBL_MAX;
 				px = &pixels[row][col];
 
-				for (int pos = 0; pos < dim_centroids; pos++)
+				for (int Id = 0; Id < dimCentroids; Id++)
 				{
-					dist = centroids[pos].distance(*px);
+					dist = centroids[Id].distance(*px);
 
 					if(dist < minDist)
 					{
 						minDist = dist;
-						px->cluster = pos;
+						px->cluster = Id;
 					}
 				}
 
@@ -83,71 +83,64 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int clusters) {
 		}
 
 		// Recalculating the centroids
-		for (auto itr = centroids.begin(); itr != centroids.end(); itr++)
+		for (int Id = 0; Id < dimCentroids; Id++)
 		{
-			int clusterId = itr - centroids.begin();
+			uchar crtR, crtG, crtB;
 
-			uchar crt_r, crt_g, crt_b;
-
-			if ((sumR[clusterId] / nPixels[clusterId] < 0 || sumR[clusterId] / nPixels[clusterId] > 255) ||
-				(sumG[clusterId] / nPixels[clusterId] < 0 || sumG[clusterId] / nPixels[clusterId] > 255) ||
-				(sumB[clusterId] / nPixels[clusterId] < 0 || sumB[clusterId] / nPixels[clusterId] > 255))
+			if ((sumR[Id] / nPixels[Id] < 0 || sumR[Id] / nPixels[Id] > 255) ||
+				(sumG[Id] / nPixels[Id] < 0 || sumG[Id] / nPixels[Id] > 255) ||
+				(sumB[Id] / nPixels[Id] < 0 || sumB[Id] / nPixels[Id] > 255))
 			{
 				cout << "OVERFLOW" << '\n';
 
 				exit(-1);
 			}
-			if (nPixels[clusterId] == 0) 
+			if (nPixels[Id] == 0) 
 			{
-				int pozr = rand() % (dim_row);
-				int pozc = rand() % (dim_col);
-				*itr = pixels[pozr][pozc];
-				pixels[pozr][pozc].cluster = clusterId;
+				int pozR = rand() % (dimRow);
+				int pozC = rand() % (dimCol);
+				centroids[Id] = pixels[pozR][pozC];
+				pixels[pozR][pozC].cluster = Id;
 			}
 			else 
 			{
-				crt_r = sumR[clusterId] / nPixels[clusterId]; // div 0 !!!!
-				crt_g = sumG[clusterId] / nPixels[clusterId]; // overflow >256
-				crt_b = sumB[clusterId] / nPixels[clusterId];
+				crtR = sumR[Id] / nPixels[Id]; // div 0 !!!!
+				crtG = sumG[Id] / nPixels[Id]; // overflow >256
+				crtB = sumB[Id] / nPixels[Id];
+				
+				uint16_t distErr = (crtR - centroids[Id].r) * (crtR - centroids[Id].r)
+					+ (crtG - centroids[Id].g) * (crtG - centroids[Id].g) 
+					+ (crtB - centroids[Id].b) * (crtB - centroids[Id].b);
 
-				uint16_t err = 1; //TODO: distance between centroids
-				// schimbareCentroids = false -> true (daca ramane false -> return)
+				centroids[Id].r = crtR;
+				centroids[Id].g = crtG;
+				centroids[Id].b = crtB;
 
-				if ((crt_r < itr->r - err || crt_r > itr->r + err)
-					&& (crt_b < itr->b - err || crt_b > itr->r + err)
-					&& (crt_g < itr->g - err || crt_g > itr->g + err))
+				uint8_t err = 1;
+				if (distErr > err)
 				{
-					itr->r = crt_r;
-					itr->g = crt_g;
-					itr->b = crt_b;
-
-					crt_centroids++;
+					centroidChanged = true;
 				}
 			}
 		}
 
 		// Stop when no centroids were modified in the last iteration
-		if (crt_centroids == 0)
+		if (centroidChanged == false)
 		{
 			cout << "THE K-MEANS PROCESSING IS COMPLETE" << '\n';
 			break;
 		}
 	}
 
-
-
-	for (auto row = pixels.begin(); row != pixels.end(); row++)
+	for (int row = 0; row < dimRow; row++)
 	{
-		for (auto col = row->begin(); col != row->end(); col++)
+		for (int col = 0; col < dimCol; col++)
 		{
-			Pixel px = *col;
+			px = &pixels[row][col];
 
-			px.r = centroids[px.cluster].r;
-			px.g = centroids[px.cluster].g;
-			px.b = centroids[px.cluster].b;
-
-			*col = px;
+			px->r = centroids[px->cluster].r;
+			px->g = centroids[px->cluster].g;
+			px->b = centroids[px->cluster].b;
 		}
 	}
-
 }

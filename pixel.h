@@ -6,7 +6,6 @@ struct Pixel
 {
 	uchar r, g, b;
 	int cluster;
-	double minDist;
 
 	Pixel();
 	///Pixel(uint16_t, uint16_t, uint16_t);

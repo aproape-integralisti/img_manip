@@ -59,22 +59,39 @@ void Image::printImage()
 	name += " reconstructed";
 
 	if (imageReconstruct(image)) {
-		imshow(name, image);
-		waitKey(0);
+		zoom(image);
 	}
+}
+
+void Image::showCentroid(int const& centroid)
+{
+	Mat image(pixels.size(), pixels[0].size(), CV_8UC3);
+	Vec3b intensity;
+
+	for (int row = 0; row < pixels.size(); row++)
+	{
+		for (int col = 0; col < pixels[0].size(); col++)
+		{
+			if (pixels[row][col].cluster == centroid)
+			{
+				image.at<Vec3b>(row, col) = pixels[row][col].toVec3b();
+			}
+			else
+			{
+				intensity[2] = 0;
+				intensity[1] = 0;
+				intensity[0] = 0;
+
+				image.at<Vec3b>(row, col) = intensity;
+			}
+		}
+	}
+
+	zoom(image);
 }
 
 ostream& operator<<(ostream& os, Image const &image)
 {
-	/*for(int i = 0; i < image.pixels.size(); i++)
-	{
-		for(int j = 0; j < image.pixels[0].size(); j++)
-		{
-			os << image.pixels[i][j] << " ";
-		}
-		
-		os << '\n';
-	}*/
 	if (!image.pixels.empty())
 	{
 		os << "SUCCESSFULLY MANAGED TO READ IMAGE AT: " << image.name << '\n';

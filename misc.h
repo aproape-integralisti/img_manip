@@ -41,3 +41,32 @@ int _ImageRead(vector<vector<Pixel>> &pixels, string const& call)
 
 	return 0;
 }
+
+//TODO: show name in the window
+void zoom(Mat const& cv_img)
+{
+	Mat src, dst, tmp;
+
+	src = cv_img;
+
+	tmp = src;
+	dst = tmp;
+
+	while (char(waitKey(1) != 'q'))
+	{
+		int c;
+		c = waitKey(1);
+		if ((char)c == 'u')
+		{
+			pyrUp(tmp, dst, Size(tmp.cols * 2, tmp.rows * 2));
+			cout << " ** Zoom In: Image x 2" << endl;
+		}
+		else if ((char)c == 'd')
+		{
+			pyrDown(tmp, dst, Size(tmp.cols / 2, tmp.rows / 2));
+			cout << " ** Zoom Out: Image / 2" << endl;
+		}
+		imshow("zooming", dst);
+		tmp = dst;
+	}
+}

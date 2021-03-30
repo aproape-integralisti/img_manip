@@ -1,6 +1,6 @@
 #include "pixel.h"
 
-Pixel::Pixel() : r(0), g(0), b(0), cluster(-1), minDist(DBL_MAX) {}
+Pixel::Pixel() : r(0), g(0), b(0), cluster(-1) {}
 
 ///Pixel::Pixel(uint16_t r, uint16_t g, uint16_t b) : r(r), g(g), b(b), cluster(-1), minDist(DBL_MAX) {}
 
