@@ -16,7 +16,7 @@ Vec3b Pixel::toVec3b()
 }
 
 double Pixel::distance(Pixel const &px) {
-	return (pow(px.r - r, 2) + pow(px.g - g, 2) + pow(px.b - b, 2));
+	return ((px.r - r)*(px.r - r) + (px.g - g)* (px.g - g) + (px.b - b)* (px.b - b));
 }
 
 Pixel& Pixel::operator=(Vec3b const &intensity)

@@ -91,5 +91,14 @@
     <Image Include="resources\pic_16.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="resources\pic_17.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pic_18.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="resources\pic_19.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
