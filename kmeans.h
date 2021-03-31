@@ -55,7 +55,7 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 		{
 			for (int col = 0; col < dimCol; col++)
 			{
-				minDist = 2000;
+				minDist = 5000;
 				px = &pixels[row][col];
 
 				for (int id = 0; id < dimCentroids; id++)
@@ -69,7 +69,7 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 					}
 				}
 
-				if (minDist == 2000) {
+				if (minDist == 5000) {
 					dimCentroids++;
 					centroids.push_back(*px);
 					px->cluster = dimCentroids - 1;
@@ -119,11 +119,39 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 			}
 		}
 
+		//TODO: minDist between two centroids
+
+		/*
+		daca distanta nu respecta minDist, se atribuie toti pixelii la unul din centroizi si celalt isi ia random
+		*/
+
+		for (int id = 0; id < dimCentroids - 1; id++) {
+			dist = centroids[id].distance(centroids[id + 1]);
+
+			if (dist < 100) {
+				for (int row = 0; row < dimRow; row++) {
+					for (int col = 0; col < dimCol; col++) {
+						px = &pixels[row][col];
+
+						if (px->cluster == id) {
+							px->cluster = id + 1;
+						}
+					}
+				}
+
+				int rowPoz = rand() % dimRow;
+				int colPoz = rand() % dimCol;
+				centroids[id + 1] = pixels[rowPoz][colPoz];
+				pixels[rowPoz][colPoz].cluster = id + 1;
+			}
+		}
+
 		// Stop when no centroids were modified in the last iteration
 		if (centroidChanged == false)
 		{
 			cout << "THE K-MEANS PROCESSING IS COMPLETE" << endl;
 			cout << "No of iterations: " << countIterations << endl;
+			cout << "No of colors: " << dimCentroids << endl;
 			break;
 		}
 
