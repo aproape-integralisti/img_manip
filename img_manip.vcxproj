@@ -147,7 +147,6 @@
     <ClCompile Include="pixel.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="img_manip.h" />
     <ClInclude Include="kmeans.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="include.h" />

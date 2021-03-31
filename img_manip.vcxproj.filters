@@ -41,9 +41,6 @@
     <ClInclude Include="kmeans.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="img_manip.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\pic_1.jpg">

@@ -16,8 +16,9 @@ Image::Image(string const &address)
 	}
 }
 
-void Image::imageCompress(int const &clusters) {
-	kMeansClustering(pixels, clusters);
+int Image::imageCompress(int const &clusters) {
+	int dimCentroids = kMeansClustering(pixels, clusters);
+	return dimCentroids;
 }
 
 bool Image::imageReconstruct(Mat &cv_img)
@@ -47,7 +48,7 @@ bool Image::imageReconstruct(Mat &cv_img)
 
 void Image::printImage()
 {
-	Mat image(pixels.size(), pixels[0].size(), CV_8UC3);
+	Mat cv_img(pixels.size(), pixels[0].size(), CV_8UC3);
 
 	if (name == "")
 	{
@@ -58,15 +59,15 @@ void Image::printImage()
 
 	name += " reconstructed";
 
-	if (imageReconstruct(image)) {
-		imshow(name, image);
+	if (imageReconstruct(cv_img)) {
+		imshow(name, cv_img);
 		waitKey(0);
 	}
 }
 
-void Image::showCentroid(int const& centroid)
+void Image::showCentroid(int const& centroid, string const &nameOfCentroid)
 {
-	Mat image(pixels.size(), pixels[0].size(), CV_8UC3);
+	Mat cv_img(pixels.size(), pixels[0].size(), CV_8UC3);
 	Vec3b intensity;
 
 	for (int row = 0; row < pixels.size(); row++)
@@ -75,7 +76,7 @@ void Image::showCentroid(int const& centroid)
 		{
 			if (pixels[row][col].cluster == centroid)
 			{
-				image.at<Vec3b>(row, col) = pixels[row][col].toVec3b();
+				cv_img.at<Vec3b>(row, col) = pixels[row][col].toVec3b();
 			}
 			else
 			{
@@ -83,19 +84,21 @@ void Image::showCentroid(int const& centroid)
 				intensity[1] = 0;
 				intensity[0] = 0;
 
-				image.at<Vec3b>(row, col) = intensity;
+				cv_img.at<Vec3b>(row, col) = intensity;
 			}
 		}
 	}
 
-	zoom(image);
+	imshow(nameOfCentroid, cv_img);
+	waitKey(0);
+	///zoom(image);
 }
 
-ostream& operator<<(ostream& os, Image const &image)
+ostream& operator<<(ostream& os, Image const &img)
 {
-	if (!image.pixels.empty())
+	if (!img.pixels.empty())
 	{
-		os << "SUCCESSFULLY MANAGED TO READ IMAGE AT: " << image.name << '\n';
+		os << "SUCCESSFULLY MANAGED TO READ IMAGE AT: " << img.name << '\n';
 	}
 	
 	return os;

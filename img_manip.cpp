@@ -1,6 +1,5 @@
 #include "include.h"
 #include "image.h"
-#include "img_manip.h"
 
 int main()
 {
@@ -9,13 +8,14 @@ int main()
 
     cout << img_1;
 
-    img_1.imageCompress(64);
+    int dimCentroids = img_1.imageCompress(64);
 
     //TODO: add this into a functions
-  /*  for (int clusters = 0; clusters < 0; clusters++)
+  /*  for (int id = 0; id < dimCentroids; id++)
     {
-        cout << "CLUSTER: " << clusters << endl;
-        img_1.showCentroid(clusters);
+        string nameCluster = "cluster";
+
+        img_1.showCentroid(id, nameCluster);
     }*/
 
     img_1.printImage();

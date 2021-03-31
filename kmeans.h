@@ -5,24 +5,43 @@
 
 void debugshow1(vector<Pixel> const& centroids)
 {
-	for (int i = 0; i < centroids.size(); i++)
+	int dim = centroids.size();
+
+	for (int i = 0; i < dim; i++)
 	{
-		cout << +centroids[i].r << "-" << +centroids[i].g << "-" << +centroids[i].b << " ";
+		cout << " [" << +centroids[i].r << "-" << +centroids[i].g << "-" << +centroids[i].b << "] ";
 	}
-	cout << endl;
+	cout << endl << endl << endl;
+
+	/*for (int i = 0; i < dim - 1; i++) {
+		if (centroids[i].r == centroids[i + 1].r && centroids[i].g == centroids[i + 1].g && centroids[i].b == centroids[i + 1].b) {
+			cout << "     OOOPS, SAME CENTROID     " << endl;
+		}
+	}*/
 }
 
 void debugshow2(vector<int>const& sume)
 {
 	for (int i = 0; i < sume.size(); i++)
 	{
-		cout << sume[i] << " ";
+		//cout << sume[i] << " ";
+		if (sume[i] == 0) {
+			cout << "       OOOPS, PROBLEM!      " << endl;
+		}
 	}
-	cout << endl;
+	//cout << endl;
 }
 
-void kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
-	vector<Pixel> centroids;
+Pixel &pickRandomPixel(vector<vector<Pixel>> &pixels, int const &dimRow, int const &dimCol)
+{
+	srand(time(0));
+	rand();
+	rand();
+	return pixels[rand() % dimRow][rand() % dimCol];
+}
+
+int kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
+	vector<Pixel> centroids(dimCentroids);
 	Pixel* px;
 	
 	auto dimRow = pixels.size();
@@ -30,13 +49,11 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 
 	int a = 0;
 
-	// Set the random speed
-	srand(time(0));
-
 	// Pick random centroids
 	for (int i = 0; i < dimCentroids; i++) 
 	{
-		centroids.push_back(pixels[rand() % (dimRow)][rand() % (dimCol)]);
+		px = &pickRandomPixel(pixels, dimRow, dimCol);
+		centroids[i] = *px;
 	}
 
 	bool centroidChanged;
@@ -55,7 +72,7 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 		{
 			for (int col = 0; col < dimCol; col++)
 			{
-				minDist = 5000;
+				minDist = 3500;
 				px = &pixels[row][col];
 
 				for (int id = 0; id < dimCentroids; id++)
@@ -69,7 +86,7 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 					}
 				}
 
-				if (minDist == 5000) {
+				if (minDist == 3500) {
 					dimCentroids++;
 					centroids.push_back(*px);
 					px->cluster = dimCentroids - 1;
@@ -94,10 +111,10 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 		// Recalculating the centroids
 		for (int id = 0; id < dimCentroids; id++) {
 			if (nPixels[id] == 0) {
-				int rowPoz = rand() % dimRow;
-				int colPoz = rand() % dimCol;
-				centroids[id] = pixels[rowPoz][colPoz];
-				pixels[rowPoz][colPoz].cluster = id;
+				px = &pickRandomPixel(pixels, dimRow, dimCol);
+				centroids[id] = *px;
+				(*px).cluster = id;
+				nPixels[id] = 1;
 			}
 			else {
 				crtR = sumR[id] / nPixels[id];
@@ -118,6 +135,8 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 				}
 			}
 		}
+		
+		debugshow2(nPixels);
 
 		//TODO: minDist between two centroids
 
@@ -126,23 +145,22 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 		*/
 
 		for (int id = 0; id < dimCentroids - 1; id++) {
-			dist = centroids[id].distance(centroids[id + 1]);
+			dist = centroids[id].distance(centroids[(static_cast<std::vector<Pixel, std::allocator<Pixel>>::size_type>(id) + 1)]);
 
-			if (dist < 100) {
+			if (dist < 2000) {
 				for (int row = 0; row < dimRow; row++) {
 					for (int col = 0; col < dimCol; col++) {
 						px = &pixels[row][col];
 
-						if (px->cluster == id) {
-							px->cluster = id + 1;
+						if (px->cluster == id + 1) {
+							px->cluster = id;
 						}
 					}
 				}
 
-				int rowPoz = rand() % dimRow;
-				int colPoz = rand() % dimCol;
-				centroids[id + 1] = pixels[rowPoz][colPoz];
-				pixels[rowPoz][colPoz].cluster = id + 1;
+				px = &pickRandomPixel(pixels, dimRow, dimCol);
+				centroids[(static_cast<std::vector<Pixel, std::allocator<Pixel>>::size_type>(id) + 1)] = *px;
+				(*px).cluster = id + 1;
 			}
 		}
 
@@ -169,4 +187,6 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 			px->b = centroids[px->cluster].b;
 		}
 	}
+
+	return dimCentroids;
 }
