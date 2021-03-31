@@ -3,12 +3,11 @@
 
 int main()
 {
-
     Image img_1("pic_17.jpg");
 
     cout << img_1;
 
-    int dimCentroids = img_1.imageCompress(64);
+    int dimCentroids = img_1.imageCompress(32);
 
     //TODO: add this into a functions
   /*  for (int id = 0; id < dimCentroids; id++)

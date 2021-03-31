@@ -40,7 +40,41 @@ Pixel &pickRandomPixel(vector<vector<Pixel>> &pixels, int const &dimRow, int con
 	return pixels[rand() % dimRow][rand() % dimCol];
 }
 
-int kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
+void centroidInit(vector<vector<Pixel>>& pixels, vector<Pixel>& centroids, Pixel*& px, double& dist, double& minDist, int const& row, int const& col, int& dimCentroids, vector<int>& nPixels, vector<double>& sumR, vector<double>& sumG, vector<double>& sumB)
+{
+	minDist = 10000;
+	px = &pixels[row][col];
+
+	for (int id = 0; id < dimCentroids; id++)
+	{
+		dist = centroids[id].distance(*px);
+
+		if (dist < minDist)
+		{
+			minDist = dist;
+			px->cluster = id;
+		}
+	}
+
+	if (minDist == 10000)
+	{
+		dimCentroids++;
+		centroids.push_back(*px);
+		px->cluster = dimCentroids - 1;
+		nPixels.push_back(0);
+		sumR.push_back(0.0);
+		sumG.push_back(0.0);
+		sumB.push_back(0.0);
+	}
+
+	nPixels[px->cluster] += 1;
+	sumR[px->cluster] += px->r;
+	sumG[px->cluster] += px->g;
+	sumB[px->cluster] += px->b;
+}
+
+int kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) 
+{
 	vector<Pixel> centroids(dimCentroids);
 	Pixel* px;
 	
@@ -56,37 +90,39 @@ int kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 		centroids[i] = *px;
 	}
 
-	bool centroidChanged;
-	int countIterations = 0;
 	cout << "STARTING THE K-MEANS PROCESSING..." << '\n';
+
+	uchar crtR, crtG, crtB;
+
+	bool centroidChanged;
+	double dist, minDist;
+
+
+	uint8_t err = 1;
+	uint16_t distErr;
+	uint16_t countIterations = 0;
+
+	vector<int> nPixels(dimCentroids);
+	vector<double> sumR(dimCentroids), sumG(dimCentroids), sumB(dimCentroids);
 
 	while (true) 
 	{
-		// Initialise with zeroes
-		vector<int> nPixels(dimCentroids, 0);
-		vector<double> sumR(dimCentroids, 0.0), sumG(dimCentroids, 0.0), sumB(dimCentroids, 0.0);
-
-		double dist, minDist;
+		// Reinitialise with zeroes
+		fill(nPixels.begin(), nPixels.end(), 0);
+		fill(sumR.begin(), sumR.end(), 0.0);
+		fill(sumG.begin(), sumG.end(), 0.0);
+		fill(sumB.begin(), sumB.end(), 0.0);
 		
+		clock_t time_req = clock();
+
 		for (int row = 0; row < dimRow; row++)
 		{
 			for (int col = 0; col < dimCol; col++)
 			{
-				minDist = 3500;
-				px = &pixels[row][col];
+				centroidInit(pixels, centroids, px, dist, minDist, row, col, dimCentroids, nPixels, sumR, sumG, sumB);
 
-				for (int id = 0; id < dimCentroids; id++)
+				/*if (minDist == 3500) 
 				{
-					dist = centroids[id].distance(*px);
-
-					if(dist < minDist)
-					{
-						minDist = dist;
-						px->cluster = id;
-					}
-				}
-
-				if (minDist == 3500) {
 					dimCentroids++;
 					centroids.push_back(*px);
 					px->cluster = dimCentroids - 1;
@@ -99,13 +135,14 @@ int kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 				nPixels[px->cluster] += 1;
 				sumR[px->cluster] += px->r;
 				sumG[px->cluster] += px->g;
-				sumB[px->cluster] += px->b;
+				sumB[px->cluster] += px->b;*/
 			}
 		}
 
-		uchar crtR, crtG, crtB;
-		uint8_t err = 1;
-		uint16_t distErr;
+		time_req = clock() - time_req;
+
+		cout << "It took: " << (float)time_req / CLOCKS_PER_SEC << endl;
+
 		centroidChanged = false;
 
 		// Recalculating the centroids
@@ -144,12 +181,15 @@ int kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 		daca distanta nu respecta minDist, se atribuie toti pixelii la unul din centroizi si celalt isi ia random
 		*/
 
-		for (int id = 0; id < dimCentroids - 1; id++) {
+		for (int id = 0; id < dimCentroids - 1; id++) 
+		{
 			dist = centroids[id].distance(centroids[(static_cast<std::vector<Pixel, std::allocator<Pixel>>::size_type>(id) + 1)]);
 
 			if (dist < 2000) {
-				for (int row = 0; row < dimRow; row++) {
-					for (int col = 0; col < dimCol; col++) {
+				for (int row = 0; row < dimRow; row++) 
+				{
+					for (int col = 0; col < dimCol; col++) 
+					{
 						px = &pixels[row][col];
 
 						if (px->cluster == id + 1) {
