@@ -4,6 +4,7 @@
 
 int main()
 {
+<<<<<<< Updated upstream
     Image img_1("pic_17.jpg");
 
     img_1.imageCompress(16);
@@ -14,6 +15,13 @@ int main()
         cout << "CLUSTER: " << clusters << endl;
         img_1.showCentroid(clusters);
     }
+=======
+    Image img_1("pic_10.png");
+  
+    cout << img_1;
+
+    img_1.imageCompress(3);
+>>>>>>> Stashed changes
 
     img_1.printImage();
 
