@@ -59,7 +59,8 @@ void Image::printImage()
 	name += " reconstructed";
 
 	if (imageReconstruct(image)) {
-		zoom(image);
+		imshow(name, image);
+		waitKey(0);
 	}
 }
 

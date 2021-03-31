@@ -21,58 +21,62 @@ void debugshow2(vector<int>const& sume)
 	cout << endl;
 }
 
-void kMeansClustering(vector<vector<Pixel>>& pixels, int clusters) {
+void kMeansClustering(vector<vector<Pixel>>& pixels, int dimCentroids) {
 	vector<Pixel> centroids;
 	Pixel* px;
 	
 	auto dimRow = pixels.size();
 	auto dimCol = pixels[0].size();
-	
+
 	int a = 0;
 
 	// Set the random speed
 	srand(time(0));
 
 	// Pick random centroids
-	for (int i = 0; i < clusters; i++) 
+	for (int i = 0; i < dimCentroids; i++) 
 	{
 		centroids.push_back(pixels[rand() % (dimRow)][rand() % (dimCol)]);
 	}
 
-	auto dimCentroids = centroids.size();
-
-	// Counting number of centroids to check if we must stop
-	bool centroidChanged = false;
-
+	bool centroidChanged;
+	int countIterations = 0;
 	cout << "STARTING THE K-MEANS PROCESSING..." << '\n';
 
 	while (true) 
 	{
-		centroidChanged = false;
-		// cout << "CENTROIDS MODIFIED ONCE" << '\n';
+		// Initialise with zeroes
+		vector<int> nPixels(dimCentroids, 0);
+		vector<double> sumR(dimCentroids, 0.0), sumG(dimCentroids, 0.0), sumB(dimCentroids, 0.0);
+
 		double dist, minDist;
 		
-
-		// Initialise with zeroes
-		vector<int> nPixels(clusters, 0);
-		vector<double> sumR(clusters, 0.0), sumG(clusters, 0.0), sumB(clusters, 0.0);
-
 		for (int row = 0; row < dimRow; row++)
 		{
 			for (int col = 0; col < dimCol; col++)
 			{
-				minDist = DBL_MAX;
+				minDist = 2000;
 				px = &pixels[row][col];
 
-				for (int Id = 0; Id < dimCentroids; Id++)
+				for (int id = 0; id < dimCentroids; id++)
 				{
-					dist = centroids[Id].distance(*px);
+					dist = centroids[id].distance(*px);
 
 					if(dist < minDist)
 					{
 						minDist = dist;
-						px->cluster = Id;
+						px->cluster = id;
 					}
+				}
+
+				if (minDist == 2000) {
+					dimCentroids++;
+					centroids.push_back(*px);
+					px->cluster = dimCentroids - 1;
+					nPixels.push_back(0);
+					sumR.push_back(0.0);
+					sumG.push_back(0.0);
+					sumB.push_back(0.0);
 				}
 
 				nPixels[px->cluster] += 1;
@@ -82,41 +86,32 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int clusters) {
 			}
 		}
 
+		uchar crtR, crtG, crtB;
+		uint8_t err = 1;
+		uint16_t distErr;
+		centroidChanged = false;
+
 		// Recalculating the centroids
-		for (int Id = 0; Id < dimCentroids; Id++)
-		{
-			uchar crtR, crtG, crtB;
-
-			if ((sumR[Id] / nPixels[Id] < 0 || sumR[Id] / nPixels[Id] > 255) ||
-				(sumG[Id] / nPixels[Id] < 0 || sumG[Id] / nPixels[Id] > 255) ||
-				(sumB[Id] / nPixels[Id] < 0 || sumB[Id] / nPixels[Id] > 255))
-			{
-				cout << "OVERFLOW" << '\n';
-
-				exit(-1);
+		for (int id = 0; id < dimCentroids; id++) {
+			if (nPixels[id] == 0) {
+				int rowPoz = rand() % dimRow;
+				int colPoz = rand() % dimCol;
+				centroids[id] = pixels[rowPoz][colPoz];
+				pixels[rowPoz][colPoz].cluster = id;
 			}
-			if (nPixels[Id] == 0) 
-			{
-				int pozR = rand() % (dimRow);
-				int pozC = rand() % (dimCol);
-				centroids[Id] = pixels[pozR][pozC];
-				pixels[pozR][pozC].cluster = Id;
-			}
-			else 
-			{
-				crtR = sumR[Id] / nPixels[Id]; // div 0 !!!!
-				crtG = sumG[Id] / nPixels[Id]; // overflow >256
-				crtB = sumB[Id] / nPixels[Id];
-				
-				uint16_t distErr = (crtR - centroids[Id].r) * (crtR - centroids[Id].r)
-					+ (crtG - centroids[Id].g) * (crtG - centroids[Id].g) 
-					+ (crtB - centroids[Id].b) * (crtB - centroids[Id].b);
+			else {
+				crtR = sumR[id] / nPixels[id];
+				crtG = sumG[id] / nPixels[id];
+				crtB = sumB[id] / nPixels[id];
 
-				centroids[Id].r = crtR;
-				centroids[Id].g = crtG;
-				centroids[Id].b = crtB;
+				distErr = (crtR - centroids[id].r) * (crtR - centroids[id].r)
+					+ (crtG - centroids[id].g) * (crtG - centroids[id].g)
+					+ (crtB - centroids[id].b) * (crtB - centroids[id].b);
 
-				uint8_t err = 1;
+				centroids[id].r = crtR;
+				centroids[id].g = crtG;
+				centroids[id].b = crtB;
+
 				if (distErr > err)
 				{
 					centroidChanged = true;
@@ -127,9 +122,12 @@ void kMeansClustering(vector<vector<Pixel>>& pixels, int clusters) {
 		// Stop when no centroids were modified in the last iteration
 		if (centroidChanged == false)
 		{
-			cout << "THE K-MEANS PROCESSING IS COMPLETE" << '\n';
+			cout << "THE K-MEANS PROCESSING IS COMPLETE" << endl;
+			cout << "No of iterations: " << countIterations << endl;
 			break;
 		}
+
+		countIterations++;
 	}
 
 	for (int row = 0; row < dimRow; row++)
