@@ -17,7 +17,7 @@ public:
 
 	bool imageReconstruct(Mat &);
 	void printImage();
-	int imageCompress(int const &);
+	void imageCompress(int &);
 	void showCentroid(int const&, string const&);
 
 	friend ostream& operator<< (ostream&, Image const&);

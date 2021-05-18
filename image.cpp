@@ -1,6 +1,6 @@
 #include "image.h"
 #include "misc.h"
-#include "kmeans.h"
+#include "kmeans_remake.h"
 
 Image::Image(string const &address)
 {
@@ -16,9 +16,8 @@ Image::Image(string const &address)
 	}
 }
 
-int Image::imageCompress(int const &clusters) {
-	int dimCentroids = kMeansClustering(pixels, clusters);
-	return dimCentroids;
+void Image::imageCompress(int &clusters) {
+	 kMeans(pixels, clusters);
 }
 
 bool Image::imageReconstruct(Mat &cv_img)
@@ -74,7 +73,7 @@ void Image::showCentroid(int const& centroid, string const &nameOfCentroid)
 	{
 		for (int col = 0; col < pixels[0].size(); col++)
 		{
-			if (pixels[row][col].cluster == centroid)
+			if (pixels[row][col].cluster_id == centroid)
 			{
 				cv_img.at<Vec3b>(row, col) = pixels[row][col].toVec3b();
 			}

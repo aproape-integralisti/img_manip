@@ -5,19 +5,11 @@ int main()
 {
     Image img_1("pic_17.jpg");
 
-    cout << img_1;
-
-    int dimCentroids = img_1.imageCompress(32);
-
-    //TODO: add this into a functions
-  /*  for (int id = 0; id < dimCentroids; id++)
-    {
-        string nameCluster = "cluster";
-
-        img_1.showCentroid(id, nameCluster);
-    }*/
+    int K = 64;
+    img_1.imageCompress(K);
 
     img_1.printImage();
 
+    cout << K << endl;
     return 0;
 }

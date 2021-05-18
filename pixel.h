@@ -5,13 +5,13 @@
 struct Pixel
 {
 	uchar r, g, b;
-	int cluster;
+	int cluster_id;
 
 	Pixel();
 	///Pixel(uint16_t, uint16_t, uint16_t);
 
 	Vec3b toVec3b();
-	double distance(Pixel const&);
+	double getDistance(Pixel const&) const;
 
 	Pixel& operator= (Vec3b const&);
 	friend ostream& operator<< (ostream&, Pixel const &);

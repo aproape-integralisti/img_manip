@@ -1,6 +1,6 @@
 #include "pixel.h"
 
-Pixel::Pixel() : r(0), g(0), b(0), cluster(-1) {}
+Pixel::Pixel() : r(0), g(0), b(0), cluster_id(-1) {}
 
 ///Pixel::Pixel(uint16_t r, uint16_t g, uint16_t b) : r(r), g(g), b(b), cluster(-1), minDist(DBL_MAX) {}
 
@@ -15,8 +15,8 @@ Vec3b Pixel::toVec3b()
 	return intensity;
 }
 
-double Pixel::distance(Pixel const &px) {
-	return ((px.r - r)*(px.r - r) + (px.g - g)* (px.g - g) + (px.b - b)* (px.b - b));
+double Pixel::getDistance(Pixel const &px) const {
+	return sqrt((px.r - r)*(px.r - r) + (px.g - g)* (px.g - g) + (px.b - b)* (px.b - b));
 }
 
 Pixel& Pixel::operator=(Vec3b const &intensity)
